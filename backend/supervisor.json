@@ -1,8 +1,8 @@
 { "Supervisors" : [
   "supervisor1" : {
-    "supervisor_id" : 910238092183093,
+    "employee_id" : 910238092183093,
     "num_of_employees" : 5,
-    "employee_ids" : [1029384903280948091238,
+    "worker_ids" : [1029384903280948091238,
     1243243253454354356536, 43242342534646235236,
     5435436476464523347646, 43265752534656674574
   ],
@@ -14,7 +14,7 @@
   "supervisor2" : {
     "supervisor_id" : 31242348623423,
     "num_of_employees" : 3,
-    "employee_ids" : [ 24324252454545243,
+    "worker_ids" : [ 24324252454545243,
     4354545435235, 42342544244542525
   ],
   "title" : "supervisor",
@@ -31,14 +31,14 @@
       },
       {
         "name": "project2",
-        "type" : ["Carpentry", "Operating Construction Equipment"]
+        "type" : ["Carpentry", "Operating Construction Equipment"],
         "location" : "Soda Hall"
         "description": "very much cool3",
         "clockin": 1583380000,
         "clockout": 1587283000,
         "project_id": 4,
       }
-   ]
+   ],
 
     "current" : {
                       "name": "project3",
