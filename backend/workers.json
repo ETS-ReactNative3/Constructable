@@ -3,36 +3,42 @@
                   "worker_id": 1029384903280948091238,
                   "supervisor_id": 910238092183093,
                   "title": "Construction Worker",
-                  "tasks":
-                           [ {
-                               "previous": {
-                                            [
+                  "tasks": [
+                    {
+                       "previous": {
+                                    [
 
-                                              { "name": "project1",
-                                                "description": "very much cool",
-                                                "clockin": 1583280000,
-                                                "clockout": 1583283000,
-                                                "project_id": 3,
-                                              },
-                                              {
-                                                "name": "project2",
-                                                "description": "very much cool3",
-                                                "clockin": 1583380000,
-                                                "clockout": 1587283000,
-                                                "project_id": 4,
-                                              }
-                                           ]
+                                      { "task_id": 2390480233,
+                                        "name": "project1",
+                                        "description": "very much cool",
+                                        "clockin": 1583280000,
+                                        "clockout": 1583283000,
+                                        "project_id": 3,
+                                        "status": "completed"
+                                      },
+                                      {
+                                        "task_id": 2309483204,
+                                        "name": "project2",
+                                        "description": "very much cool3",
+                                        "clockin": 1583380000,
+                                        "clockout": 1587283000,
+                                        "project_id": 4,
+                                        "status": "completed"
+                                      }
+                                   ]
+                    },
+                    {
+                       "current": {
+                                      "task_id": 2390480233,
+                                      "name": "project3",
+                                      "description": "very much cool 2",
+                                      "clockin": 1383280000,
+                                      "project_id": 5,
+                                      "status": "mostly done"
 
-                            },
-                            {  "current": {
-                                              "name": "project3",
-                                              "description": "very much cool 2",
-                                              "clockin": 1383280000,
-                                              "project_id": 5
-
-                                          }
-                            }
-                          ],
+                                  }
+                    }
+                  ],
                   "skills": [ "scaffolding", "structure devleopment"],
                   "personality_traits": ["hardworking", "personable"],
                   "posts": [
@@ -46,5 +52,5 @@
                       }
                   ]
                 }
-              ]
+          ]
 }
