@@ -60,10 +60,13 @@
 
   "supervisor3" : {
     "name" : "Sayukama Daichidiwa",
-    "employee_id" : 3034756154
+    "employee_id" : 3034756154,
+    "num_of_employees" : 2,
+    "worker_ids" : [4324632432784, 425245627552252],
+    "title" : "supervisor",
+    "tasks" : [] 
 
   }
-
 ]
 
 }
