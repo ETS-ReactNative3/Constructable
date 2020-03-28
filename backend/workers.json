@@ -1,46 +1,68 @@
-{"Workers" : [
-                {
-                  "employee_id": 1029384903280948091238,
-                  "supervisor_id": 910238092183093,
-                  "title": "Construction Worker",
-                  "tasks": [
-                    {
-                       "previous": {
-                                    [
-
-                                      { "task_id": 2390480233,
-                                        "name": "project1",
-                                        "description": "very much cool",
-                                        "clockin": 1583280000,
-                                        "clockout": 1583283000,
-                                        "project_id": 3,
-                                        "status": "completed"
-                                      },
-                                      {
-                                        "task_id": 2309483204,
-                                        "name": "project2",
-                                        "description": "very much cool3",
-                                        "clockin": 1583380000,
-                                        "clockout": 1587283000,
-                                        "project_id": 4,
-                                        "status": "completed"
-                                      }
-                                   ]
-                    },
-                    {
-                       "current": {
-                                      "task_id": 2390480233,
-                                      "name": "project3",
-                                      "description": "very much cool 2",
-                                      "clockin": 1383280000,
-                                      "project_id": 5,
-                                      "status": "mostly done"
-
-                                  }
-                    }
-                  ],
-                  "skills": [ "scaffolding", "structure devleopment"],
-                  "personality_traits": ["hardworking", "personable"],
-                }
-          ]
+/**
+* Paste one or more documents here
+*/
+{
+    "_id": {
+        "$oid": "5e7f92951c9d4400000534f3"
+    },
+    "supervisor_id": {
+        "$numberLong": "910238092183093"
+    },
+    "first_name": "Pranav",
+    "last_name": "Krishnamoorthi",
+    "title": "Construction Worker",
+    "tasks": {
+        "previous": [{
+            "task_id": {
+                "$numberLong": "2390480233"
+            },
+            "name": "project1",
+            "description": "very much cool",
+            "clockin": {
+                "$numberLong": "1583280000"
+            },
+            "clockout": {
+                "$numberLong": "1583283000"
+            },
+            "project_id": {
+                "$numberInt": "3"
+            },
+            "status": "completed"
+        }, {
+            "task_id": {
+                "$numberLong": "2309483204"
+            },
+            "name": "project2",
+            "description": "very much cool3",
+            "clockin": {
+                "$numberLong": "1583380000"
+            },
+            "clockout": {
+                "$numberLong": "1587283000"
+            },
+            "project_id": {
+                "$numberInt": "4"
+            },
+            "status": "completed"
+        }],
+        "current": {
+            "task_id": {
+                "$numberLong": "2390480233"
+            },
+            "name": "project3",
+            "description": "very much cool 2",
+            "clockin": {
+                "$numberLong": "1383280000"
+            },
+            "clockout": {
+                "$numberLong": "0"
+            },
+            "project_id": {
+                "$numberInt": "5"
+            },
+            "status": "mostly done"
+        }
+    },
+    "skills": ["scaffolding", "structure development"],
+    "personality_traits": ["hardworking", "personable"]
 }
