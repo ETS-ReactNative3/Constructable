@@ -6,7 +6,14 @@
         "caption": "Look what I made!",
         "hashtags": ["#asdlkfjlkj", "#akalksjldfjk", "#alsdkjfklj"],
         "views": 133,
-        "likes":24
+        "likes":24,
+        "comments": [
+          {
+            "employee_id": 203849032,
+            "timestamp": 209384092,
+            "message": "great post!"
+          }
+        ]
       }
   ]
 }
