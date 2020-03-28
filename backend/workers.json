@@ -2,69 +2,72 @@
 * Paste one or more documents here
 */
 {
-    "_id": {
-        "$oid": "5e7f92951c9d4400000534f3"
-    },
-    "supervisor_id": {
-        "$numberLong": "910238092183093"
-    },
-    "first_name": "Pranav",
-    "last_name": "Krishnamoorthi",
-    "title": "Construction Worker",
-    "tasks": {
-        "previous": [{
-            "project_id": {
-              "$oid": "5e7fa3aa1c9d4400000534fd"
-            },
-            "task_id": {
-                "$numberLong": "2390480233"
-            },
-            "name": "Lay Tiles",
-            "description": "very much cool",
-            "clockin": {
-                "$numberLong": "1583280000"
-            },
-            "clockout": {
-                "$numberLong": "1583283000"
-            },
-            "status": "completed"
-        }, {
-            "project_id": {
-              "$oid": "5e7fa3aa1c9d4400000534fd"
-            },
-            "task_id": {
-                "$numberLong": "2309483204"
-            },
-            "name": "Buy Drill",
-            "description": "very much cool3",
-            "clockin": {
-                "$numberLong": "1583380000"
-            },
-            "clockout": {
-                "$numberLong": "1587283000"
-            },
-            "status": "completed"
-        }],
-        "current": [
-          {
-            "project_id": {
-                "$oid": "5e7fa5361c9d4400000534ff"
-            },
-            "task_id": {
-                "$numberLong": "2390480233"
-            },
-            "name": "Hammer Nails in Shed",
-            "description": "very much cool 2",
-            "clockin": {
-                "$numberLong": "1383280000"
-            },
-            "clockout": {
-                "$numberLong": "0"
-            },
-            "status": "mostly done"
-        }
-      ]
-    },
-    "skills": ["scaffolding", "structure development"],
-    "personality_traits": ["hardworking", "personable"]
+  "_id": {
+    "$oid": "5e7f92951c9d4400000534f3"
+  },
+  "supervisor_id": {
+    "$numberLong": "910238092183093"
+  },
+  "first_name": "Pranav",
+  "last_name": "Krishnamoorthi",
+  "title": "Construction Worker",
+  "tasks": {
+    "previous": [
+      {
+        "project_id": {
+          "$oid": "5e7fa3aa1c9d4400000534fd"
+        },
+        "task_id": {
+          "$numberLong": "2390480233"
+        },
+        "name": "Lay Tiles",
+        "description": "very much cool",
+        "clockin": {
+          "$numberLong": "1583280000"
+        },
+        "clockout": {
+          "$numberLong": "1583283000"
+        },
+        "status": "completed"
+      },
+      {
+        "project_id": {
+          "$oid": "5e7fa3aa1c9d4400000534fd"
+        },
+        "task_id": {
+          "$numberLong": "2309483204"
+        },
+        "name": "Buy Drill",
+        "description": "very much cool3",
+        "clockin": {
+          "$numberLong": "1583380000"
+        },
+        "clockout": {
+          "$numberLong": "1587283000"
+        },
+        "status": "completed"
+      }
+    ],
+    "current": [
+      {
+        "project_id": {
+          "$oid": "5e7fa5361c9d4400000534ff"
+        },
+        "task_id": {
+          "$numberLong": "2390480233"
+        },
+        "name": "Hammer Nails in Shed",
+        "description": "very much cool 2",
+        "clockin": {
+          "$numberLong": "1383280000"
+        },
+        "clockout": {
+          "$numberLong": "0"
+        },
+        "status": "mostly done"
+      }
+    ]
+  },
+  "skills": ["scaffolding", "structure development"],
+  "personality_traits": ["hardworking", "personable"]
 }
