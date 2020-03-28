@@ -1,4 +1,4 @@
-["Workers" : [
+{"Workers" : [
                 {
                   "worker_id": 1029384903280948091238,
                   "supervisor_id": 910238092183093,
@@ -30,25 +30,12 @@
                                               "clockin": 1383280000,
                                               "project_id": 5
 
-                                          },
+                                          }
                             }
                           ],
                   "skills": [ "scaffolding", "structure devleopment"],
                   "personality_traits": ["hardworking", "personable"]
-                },
+                }
+              ]
 
-]
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
+  }
