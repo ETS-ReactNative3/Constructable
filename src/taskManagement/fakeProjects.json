@@ -6,12 +6,12 @@
         "tasks": [
             {
                 "name": "Lay Tiles",
-                "status": "done",
+                "status": "Completed Task",
                 "workers": ["Akshat Jain"]
             },
             {
                 "name": "Buy Drill",
-                "status": "halfway through",
+                "status": "Halfway Completed",
                 "workers": ["Akshat Jain"]
             }
         ],

@@ -13,6 +13,7 @@ import NewPost from './src/dashboard/NewPost';
 import MyProjects from './src/taskManagement/myProjects';
 import NewTask from './src/taskManagement/NewTask';
 import NewProject from './src/taskManagement/NewProject';
+import MyTasks from './src/taskManagement/myTasks';
 
 class App extends Component {
   render() {
@@ -22,7 +23,7 @@ class App extends Component {
         <Scene>
           <Scene key="splash" component={Splash} hideNavBar initial />
           <Scene key="login" component={Login} hideNavBar />
-          <Scene key="registration" component={Registration} hideNavBar />
+          <Scene key="register" component={Registration} hideNavBar />
 
           <Drawer hideNavBar key="drawer" contentComponent={DrawerComp}>
             <Scene hideNavBar panHandlers={null}>
@@ -32,6 +33,7 @@ class App extends Component {
               <Scene key="projects" component={MyProjects} navTransparent />
               <Scene key="newTask" component={NewTask} navTransparent />
               <Scene key="newProject" component={NewProject} navTransparent />
+              <Scene key="tasks" component={MyTasks} navTransparent />
             </Scene>
           </Drawer>
         </Scene>
