@@ -12,6 +12,7 @@ import Profile from './src/profile';
 import NewPost from './src/dashboard/NewPost';
 import MyProjects from './src/taskManagement/myProjects';
 import NewTask from './src/taskManagement/NewTask';
+import NewProject from './src/taskManagement/NewProject';
 
 class App extends Component {
   render() {
@@ -30,6 +31,7 @@ class App extends Component {
               <Scene key="newPost" component={NewPost} navTransparent />
               <Scene key="projects" component={MyProjects} navTransparent />
               <Scene key="newTask" component={NewTask} navTransparent />
+              <Scene key="newProject" component={NewProject} navTransparent />
             </Scene>
           </Drawer>
         </Scene>

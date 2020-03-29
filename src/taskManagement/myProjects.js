@@ -64,7 +64,7 @@ class MyProjects extends Component {
 
         <TouchableOpacity
           activeOpacity={0.7}
-          onPress={() => console.log('new project')}
+          onPress={() => Actions.newProject({user_id: this.state.user_id})}
           style={styles.TouchableOpacityStyle}>
           <Image
             source={{
