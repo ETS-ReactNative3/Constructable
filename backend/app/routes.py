@@ -250,7 +250,7 @@ def updateTask():
                     current_tasks[i] = temp
                     current_tasks.pop()
                     break
-            mongo.db.Workers.update({"_id": worker_employee_id}, worker})
+            mongo.db.Workers.update({"_id": worker_employee_id}, worker)
 
     project['tasks'][task_index]['status'] = task_status
     mongo.db.Projects.update({"_id":project_id}, project)
@@ -275,16 +275,17 @@ def updateSupervisor(reciever, updateMessage):
 @app.route("/comments", methods = ["GET"])
 def comments():
     post_id = bson.objectid.ObjectId(request.args.get("post_id"))
-    post = mongo.db.Projects.find_one_or_404({"_id" : post_id})
+    post = mongo.db.Posts.find_one_or_404({"_id" : post_id})
     comments = post['comments']
-
+    print("hi")
     output_comments = []
     for comment in comments:
         user_id = comment['user_id']
         worker = mongo.db.Workers.find_one_or_404({"_id": user_id})
-        user_id = str(user_id)
-        user_name = worker['first_name'] +  " " + worker[last_name]
-        pf = worker['pf']
+        user_name = worker['first_name'] +  " " + worker['last_name']
+        pf = None
+        if 'pf' in worker:
+            pf = worker['pf']
         message = comment['message']
         output_comments.append({"user_name":user_name,"user_id": user_id, "profilePic":pf, "message":message})
     return output_comments
@@ -296,14 +297,16 @@ def views():
     post['views'] += 1
     mongo.db.Posts.update({"_id": post_id}, post)
 
-@app.route("/userInfo", method = ["GET"])
+@app.route("/userInfo", methods = ["GET"])
 def userInfo():
     employee_id = bson.objectid.ObjectId(request.args.get("user_id"))
     worker = mongo.db.Workers.find_one_or_404({"_id": user_id})
     user_name = worker['first_name'] +  " " + worker[last_name]
 
     impact_score = impact_score()
-    pf = worker['pf']
+    pf = None
+    if 'pf' in worker:
+        pf = worker['pf']
     user_info = {}
     if(worker['role'] == 'worker'):
         num_comp_tasks = len(worker['tasks']['previous'])
