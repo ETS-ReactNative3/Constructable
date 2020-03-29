@@ -113,9 +113,7 @@ class TasksList extends Component {
                     minimumValue={0}
                     maximumValue={4}
                     step={1}
-                    onSlidingComplete={() =>
-                      this.changeTaskStatus(index)
-                    }
+                    onSlidingComplete={() => this.changeTaskStatus(index)}
                     onValueChange={value =>
                       this.setState(prevState => {
                         prevState.statusValues[index] = value;

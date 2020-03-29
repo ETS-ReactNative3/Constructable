@@ -146,10 +146,12 @@ class Login extends Component {
               <Button
                 title="REGISTER: Supervisor"
                 buttonStyle={styles.registerButtonLeft}
+                onPress={() => Actions.register({role: 'Supervisor'})}
               />
               <Button
                 title="REGISTER: Worker"
                 buttonStyle={styles.registerButtonRight}
+                onPress={() => Actions.register({role: 'Worker'})}
               />
             </View>
           </View>

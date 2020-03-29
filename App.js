@@ -23,7 +23,7 @@ class App extends Component {
         <Scene>
           <Scene key="splash" component={Splash} hideNavBar initial />
           <Scene key="login" component={Login} hideNavBar />
-          <Scene key="registration" component={Registration} hideNavBar />
+          <Scene key="register" component={Registration} hideNavBar />
 
           <Drawer hideNavBar key="drawer" contentComponent={DrawerComp}>
             <Scene hideNavBar panHandlers={null}>
