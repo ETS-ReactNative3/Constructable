@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f0ead6',
+    backgroundColor: 'white',
   },
   headerContainer: {
     height: 70,
@@ -91,12 +91,12 @@ class NewPost extends Component {
     return (
       <View style={styles.container}>
         <Header
-          backgroundColor="#669DB3FF"
+          backgroundColor="#F3F4F9"
           containerStyle={styles.headerContainer}
-          leftComponent={{icon: 'menu', color: '#fff'}}
+          leftComponent={{icon: 'menu', color: 'black'}}
           centerComponent={{
             text: 'New Post',
-            style: {fontSize: 16, color: '#fff'},
+            style: {fontSize: 16, fontWeight: 'bold', color: 'black'},
           }}
         />
         <View style={styles.container}>

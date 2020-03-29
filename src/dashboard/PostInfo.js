@@ -5,7 +5,7 @@ import {
   View,
   StyleSheet,
   ActivityIndicator,
-  TouchableHighlight,
+  TouchableOpacity,
 } from 'react-native';
 import {Image, Text} from 'react-native-elements';
 import {Actions} from 'react-native-router-flux';
@@ -40,7 +40,7 @@ class PostInfo extends Component {
           />
         </View>
         <View style={{flex: 0.5}} />
-        <TouchableHighlight
+        <TouchableOpacity
           onPress={() => Actions.profile({user_id: this.props.id})}>
           <View style={styles.textContainer}>
             <Text style={{fontSize: 14, fontWeight: 'bold', color: '#FFFFFF'}}>
@@ -50,7 +50,7 @@ class PostInfo extends Component {
               {this.props.views} views
             </Text>
           </View>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   }

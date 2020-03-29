@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
 
 import {
@@ -7,7 +8,7 @@ import {
   ScrollView,
   Image,
   Modal,
-  TouchableHighlight,
+  TouchableOpacity,
 } from 'react-native';
 
 import {Text} from 'react-native-elements';
@@ -95,12 +96,12 @@ class PostList extends Component {
             if ('image' in item) {
               return (
                 <View style={styles.postContainer}>
-                  <TouchableHighlight onPress={() => this.openPostModal(item)}>
+                  <TouchableOpacity onPress={() => this.openPostModal(item)}>
                     <Image
                       style={styles.thumbnail}
                       source={{uri: item.image}}
                     />
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                   <View style={styles.postDetContainer}>
                     <PostInfo
                       src={item.profilePic}
@@ -114,7 +115,7 @@ class PostList extends Component {
             } else {
               return (
                 <View style={styles.postContainer}>
-                  <TouchableHighlight onPress={() => this.openPostModal(item)}>
+                  <TouchableOpacity onPress={() => this.openPostModal(item)}>
                     <View
                       style={[
                         styles.thumbnail,
@@ -128,7 +129,7 @@ class PostList extends Component {
                         <Text style={{padding: 15}}>{item.text}</Text>
                       </ScrollView>
                     </View>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                   <View style={styles.postDetContainer}>
                     <PostInfo
                       src={item.profilePic}
