@@ -3,7 +3,6 @@ from flask_pymongo import PyMongo
 from flask import jsonify, request, url_for, render_template, make_response
 from bson import json_util
 import bson
-import datetime
 from gridfs import GridFS
 
 app.config["MONGO_URI"] = "mongodb+srv://Shaunak:construction@constructable-6isx0.mongodb.net/AppData"
@@ -16,11 +15,18 @@ def get_worker():
     name = request.args.get('first_name')
     worker = mongo.db.Workers.find_one_or_404({"first_name": name})
     return json_util.dumps(worker)
+
+#get role given employee id
+@app.route("/getrole", methods = ["GET"])
+def get_role():
+    employee_id = bson.objectid.ObjectId(request.args.get('employee_id'))
+    worker = mongo.db.Workers.find_one_or_404({"_id": employee_id})
+    return worker['role']
     
 #get tasks given employee id
 @app.route("/gettasks", methods = ["GET"])
 def worker_tasks():
-    employee_id = bson.objectid.ObjectId(request.args.get('id'))
+    employee_id = bson.objectid.ObjectId(request.args.get('employee_id'))
     worker = mongo.db.Workers.find_one_or_404({"_id": employee_id})
     if worker['role'] == 'supervisor':
         output = {}
@@ -91,6 +97,10 @@ def new_project():
     projectStr = str(project).replace("'", '"')
     new_project = json_util.loads(projectStr)
     new_project['supervisor'] = supervisor_id
+    if (len(list(request.files.to_dict().values())) != 0):
+        file = list(request.files.to_dict().values())[0]
+        pic_id = fs.put(file, content_type=file.content_type, filename=file.filename)
+        new_project['pic_id'] = pic_id
     print("Added project: " + str(new_project))
     mongo.db.Projects.insert_one(new_project)
     return "Project Added!"
@@ -115,22 +125,12 @@ def add_worker():
     #skills and personality traits entered as words with commas in between
     worker['skills'] = worker['skills'].split(',')
     worker['personality_traits'] = worker['personality_traits'].split(',')
-    workerStr = str(worker).replace("'", '"')
-    print("Added worker: " + workerStr)
-    mongo.db.Workers.insert_one(json_util.loads(workerStr))
+    if (len(list(request.files.to_dict().values())) != 0):
+        file = list(request.files.to_dict().values())[0]
+        pic_id = fs.put(file, content_type=file.content_type, filename=file.filename)
+        worker['pf'] = pic_id
+    mongo.db.Workers.insert_one(worker)
     return "Worker Added!"
-
-#add profile pic to employee given employee id and file upload
-@app.route("/addprofile", methods = ["POST"])
-def add_pf():
-    employee_id = bson.objectid.ObjectId(request.args.get('employee_id'))
-    file = list(request.files.to_dict().values())[0]
-    pic_id = fs.put(file, content_type=file.content_type, filename=file.filename)
-    employee = mongo.db.Workers.find_one_or_404({"_id": employee_id})
-    employee['pf'] = pic_id
-    mongo.db.Workers.update({"_id": employee_id}, employee)
-    print(pic_id)
-    return "added picture with id " + str(pic_id)
 
 #get profile pic given employee id
 @app.route("/getprofile", methods = ["GET"])
@@ -184,6 +184,18 @@ def get_post_pic():
     response = make_response(file.read())
     response.mimetype = file.content_type
     return response
+
+#get picture by project id
+@app.route("/getprojectpic", methods = ["GET"])
+def get_project_pic():
+    project_id = bson.objectid.ObjectId(request.args.get('project_id'))
+    project = mongo.db.Projects.find_one_or_404({"_id": project_id})
+    pic_id = project['pic_id']
+    file = fs.get(pic_id)
+    response = make_response(file.read())
+    response.mimetype = file.content_type
+    return response
+
 
 #returns all posts if no id specified, one worker's posts if id is specified
 @app.route("/getpostdata", methods = ["GET"])
