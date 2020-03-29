@@ -1,15 +1,11 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
 
-import {
-  View,
-  StyleSheet,
-  FlatList,
-  ActivityIndicator,
-  ScrollView,
-  Image,
-} from 'react-native';
+import {View, StyleSheet, TouchableOpacity} from 'react-native';
 
-import {Text, Header} from 'react-native-elements';
+import {Header, Image} from 'react-native-elements';
+import PostList from './PostList';
+import {Actions} from 'react-native-router-flux';
 
 const postDataFake = require('./fakePostData.json');
 
@@ -24,27 +20,26 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
   },
-  postContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    margin: 8,
-  },
-  thumbnail: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 300,
-    borderRadius: 20,
-  },
-  postDetContainer: {
+  TouchableOpacityStyle: {
     position: 'absolute',
-    bottom: 0,
-    left: 50,
+    width: 50,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    right: 30,
+    bottom: 30,
+  },
+  FloatingButtonStyle: {
+    resizeMode: 'contain',
+    width: 50,
+    height: 50,
   },
 });
 
 class Home extends Component {
   constructor(props) {
     super(props);
+    console.log('Dash: ' + this.props.user_id);
     this.state = {
       postData: this.shuffle(
         postDataFake.reduce(function(res, current, index, array) {
@@ -91,43 +86,19 @@ class Home extends Component {
           centerComponent={{text: 'Local Activity', style: {color: '#fff'}}}
         />
 
-        <FlatList
-          style={{marginTop: 32}}
-          data={this.state.postData}
-          renderItem={({item}) => {
-            console.log('image' in item);
-            if ('image' in item) {
-              return (
-                <View style={styles.postContainer}>
-                  <Image style={styles.thumbnail} source={{uri: item.image}} />
-                  <Text style={styles.postDetContainer}>Test Text</Text>
-                </View>
-              );
-            } else {
-              return (
-                <View style={styles.postContainer}>
-                  <View
-                    style={[
-                      styles.thumbnail,
-                      {
-                        backgroundColor: item.color,
-                      },
-                    ]}>
-                    <ScrollView
-                      style={{height: 300}}
-                      contentContainerStyle={{flex: 1}}>
-                      <Text style={{padding: 15}}>{item.text}</Text>
-                    </ScrollView>
-                  </View>
-                  <Text style={styles.postDetContainer}>Test Text</Text>
-                </View>
-              );
-            }
-          }}
-          //Setting the number of column
-          numColumns={2}
-          keyExtractor={(item, index) => index.toString()}
-        />
+        <PostList postData={this.state.postData} />
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => Actions.newPost()}
+          style={styles.TouchableOpacityStyle}>
+          <Image
+            source={{
+              uri:
+                'https://raw.githubusercontent.com/AboutReact/sampleresource/master/plus_icon.png',
+            }}
+            style={styles.FloatingButtonStyle}
+          />
+        </TouchableOpacity>
       </View>
     );
   }

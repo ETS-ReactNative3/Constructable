@@ -8,6 +8,8 @@ import DrawerComp from './src/Drawer.js';
 
 import Home from './src/dashboard/Home';
 import Splash from './src/splash';
+import Profile from './src/profile';
+import NewPost from './src/dashboard/NewPost';
 
 class App extends Component {
   render() {
@@ -19,8 +21,12 @@ class App extends Component {
           <Scene key="login" component={Login} hideNavBar />
           <Scene key="registration" component={Registration} hideNavBar />
 
-          <Drawer hideNavBar key="drawer" contentComponent={DrawerComp} wrap={false}>
-            <Scene key="dash" component={Home} navTransparent />
+          <Drawer hideNavBar key="drawer" contentComponent={DrawerComp}>
+            <Scene hideNavBar panHandlers={null}>
+              <Scene key="dash" component={Home} navTransparent />
+              <Scene key="profile" component={Profile} navTransparent />
+              <Scene key="newPost" component={NewPost} navTransparent />
+            </Scene>
           </Drawer>
         </Scene>
       </Router>

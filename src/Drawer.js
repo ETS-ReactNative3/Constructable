@@ -77,7 +77,7 @@ const menuToNav = {
   // eslint-disable-next-line prettier/prettier
     'Dashboard': 'dash',
   'Task Manager': 'tasks',
-  'My Profile': 'account',
+  'My Profile': 'profile',
   // eslint-disable-next-line prettier/prettier
     'Analytics': 'analytics',
 };
@@ -85,11 +85,10 @@ const menuToNav = {
 class DrawerComp extends Component {
   constructor(props) {
     super(props);
+    console.log('Drawer: ' + this.props.user_id);
     this.state = {user_id: -1, name: '', username: ''};
     this.menuItems = ['Dashboard', 'Task Manager', 'My Profile', 'Analytics'];
-  }
 
-  componentWillMount() {
     AsyncStorage.getItem('user_id').then(ID => {
       if (ID) {
         this.setState({user_id: ID});

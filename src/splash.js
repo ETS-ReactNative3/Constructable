@@ -23,9 +23,9 @@ export default class Splash extends Component {
     AsyncStorage.getItem(USER_ID).then(ID => {
       if (ID) {
         console.log('In Splash ' + ID);
-        setTimeout(() => Actions.dash({user_id: ID}), 2000);
+        setTimeout(() => Actions.drawer({user_id: ID}), 1000);
       } else {
-        setTimeout(() => Actions.login(), 2000);
+        setTimeout(() => Actions.login(), 1000);
       }
     });
   }
