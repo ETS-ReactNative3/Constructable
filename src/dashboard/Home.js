@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
 
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
@@ -13,7 +12,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
-    backgroundColor: '#669DB3FF',
+    backgroundColor: '#FFFFFF',
   },
   headerContainer: {
     height: 70,
@@ -41,49 +40,21 @@ class Home extends Component {
     super(props);
     console.log('Dash: ' + this.props.user_id);
     this.state = {
-      postData: this.shuffle(
-        postDataFake.reduce(function(res, current, index, array) {
-          return res.concat([current, current, current, current]);
-        }, []),
-      ),
+      postData: postDataFake,
     };
   }
-
-  shuffle(array) {
-    var currentIndex = array.length,
-      temporaryValue,
-      randomIndex;
-
-    // While there remain elements to shuffle...
-    while (currentIndex !== 0) {
-      // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-
-      // And swap it with the current element.
-      temporaryValue = array[currentIndex];
-      array[currentIndex] = array[randomIndex];
-      array[randomIndex] = temporaryValue;
-    }
-
-    return array;
-  }
-
-  // componentDidMount() {
-  //   // get post data from server
-  //   this.setState({
-  //     postData: postDataFake,
-  //   });
-  // }
 
   render() {
     return (
       <View style={styles.container}>
         <Header
-          backgroundColor="#669DB3FF"
+          backgroundColor="#F3F4F9"
           containerStyle={styles.headerContainer}
-          leftComponent={{icon: 'menu', color: '#fff'}}
-          centerComponent={{text: 'Local Activity', style: {color: '#fff'}}}
+          leftComponent={{icon: 'menu', color: 'black'}}
+          centerComponent={{
+            text: 'Local Activity',
+            style: {fontWeight: 'bold', color: '#black'},
+          }}
         />
 
         <PostList postData={this.state.postData} />
