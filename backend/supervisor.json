@@ -1,8 +1,9 @@
 { "Supervisors" : [
   "supervisor1" : {
-    "supervisor_id" : 910238092183093,
+    "name" : "Obi-Wan Kenobi",
+    "employee_id" : 910238092183093,
     "num_of_employees" : 5,
-    "employee_ids" : [1029384903280948091238,
+    "worker_ids" : [1029384903280948091238,
     1243243253454354356536, 43242342534646235236,
     5435436476464523347646, 43265752534656674574
   ],
@@ -12,18 +13,20 @@
   },
 
   "supervisor2" : {
-    "supervisor_id" : 31242348623423,
+    "employee_id" : 31242348623423,
+    "name" : "Akshat Jain",
     "num_of_employees" : 3,
-    "employee_ids" : [ 24324252454545243,
+    "worker_ids" : [ 24324252454545243,
     4354545435235, 42342544244542525
   ],
   "title" : "supervisor",
-  "tasks": [
+  "tasks": {
     "projects_finished" : 3,
     "previous" : [
       { "name": "project1",
-        "type" : ["Masonry", "Glazing"]
-        "location" : "2650 Durant Avenue, Berkeley, CA, 94720"
+        "type" : ["Masonry", "Glazing"],
+        "location" : "2650 Durant Avenue, Berkeley, CA, 94720",
+        "time_span" : {"May 20 2019", "August 20 2019"},
         "description": "very much cool",
         "clockin": 1583280000,
         "clockout": 1583283000,
@@ -31,30 +34,50 @@
       },
       {
         "name": "project2",
-        "type" : ["Carpentry", "Operating Construction Equipment"]
-        "location" : "Soda Hall"
+        "type" : ["Carpentry", "Operating Construction Equipment"],
+        "location" : "Soda Hall",
+        "time_span" : {"September 19 2018", "December 8 2018"},
         "description": "very much cool3",
         "clockin": 1583380000,
         "clockout": 1587283000,
         "project_id": 4,
       }
-   ]
+   ],
 
     "current" : {
                       "name": "project3",
+                      "type" : ["Electrican Job", "Elevator Installation"],
+                      "location" : "Moffitt Library",
+                      "start_date" : "January 19 2020",
                       "description": "very much cool 2",
                       "clockin": 1383280000,
                       "project_id": 5
 
                   }
-  ]
+                }
+              },
 
 
-  },
   "supervisor3" : {
+    "name" : "Sayukama Daichidiwa",
+    "employee_id" : 3034756154,
+    "num_of_employees" : 2,
+    "worker_ids" : [4324632432784, 425245627552252],
+    "title" : "supervisor",
+    "tasks" : []
 
+      "current" : [
+        {
+          "project_id": {
+            "$oid": "5e7fa5361c9d4400000534ff"
+          },
+          "clockin": {
+            "$numberLong": "1383280000"
+          }
+        }
+      ]
+    }
   }
-
 ]
 
 }
