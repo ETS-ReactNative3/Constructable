@@ -75,15 +75,18 @@ def assign_task():
     project_id = bson.objectid.ObjectId(request.args.get('project_id'))
     task_id = bson.objectid.ObjectId(request.args.get('task_id'))
     project = mongo.db.Projects.find_one_or_404({"_id": project_id})
+    employee = mongo.db.Workers.find_one_or_404({"_id": employee_id})
     for task in project['tasks']:
         if task['task_id'] == task_id:
             if employee_id not in task['workers']:
                 task['workers'].append(employee_id)
+                if (len(employee['tasks']) == 0):
+                    employee['tasks'] = {'current':[]}
+                employee['tasks']['current'].append({'task_id': task_id})
             break
     if employee_id not in project['workers']:
         project['workers'].append(employee_id)
     mongo.db.Projects.update({"_id": project_id}, project)
-    employee = mongo.db.Workers.find({"_id": employee_id})
     employee['supervisor'] = project['supervisor']
     mongo.db.Workers.update({"_id": employee_id}, employee)
     return "Task assigned to " + employee['first_name']
