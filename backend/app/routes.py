@@ -4,6 +4,9 @@ from flask import jsonify, request, url_for, render_template, make_response
 from bson import json_util
 import bson
 from gridfs import GridFS
+from twilio.rest import Client
+import json
+
 
 app.config["MONGO_URI"] = "mongodb+srv://Shaunak:construction@constructable-6isx0.mongodb.net/AppData"
 mongo = PyMongo(app)
@@ -22,7 +25,7 @@ def get_role():
     employee_id = bson.objectid.ObjectId(request.args.get('employee_id'))
     worker = mongo.db.Workers.find_one_or_404({"_id": employee_id})
     return worker['role']
-    
+
 #get tasks given employee id
 @app.route("/gettasks", methods = ["GET"])
 def worker_tasks():
@@ -205,3 +208,110 @@ def all_post_data():
     employee_id = bson.objectid.ObjectId(request.args.get('employee_id'))
     all_posts = mongo.db.Posts.find({"user_id": employee_id})
     return json_util.dumps(all_posts)
+
+
+
+task_status_options = ['about to start', 'about a quarter through', 'halfway through', 'almost done with', 'done']
+
+@app.route("/updateTask", methods = ["GET"])
+def updateTask():
+    #JUST FOR TESTING THIS INDIVIDUAL FUNCTINO I HARDCODED THE EMPLOYEE ID
+    employee_id = "5e7f92951c9d4400000534f3"
+    #just iterate here possbily if doesn't work
+    worker = mongo.db.Workers.find_one_or_404({"_id": bson.objectid.ObjectId(employee_id)})
+    task_id = bson.objectid.ObjectId(request.args.get("task_id"))
+    project_id = None
+    for current_task in worker['tasks']['current']:
+        if(current_task['task_id'] == task_id):
+            project_id = current_task['project_id']
+            break
+    project = mongo.db.Projects.find_one_or_404({"_id": project_id})
+    task_index = -1
+    for i in range(len(project['tasks'])):
+        if(project['tasks'][i]['task_id'] == task_id):
+            task_index = i
+            break
+
+
+    #task_status query should be a value between 0 and 4
+    task_status = task_status_options[int(request.args.get("task_status"))]
+
+    if(task_status == "done"):
+        #putting list around is potentially unnecessary
+        for worker in list(mongo.db.Workers.find({})):
+            worker_employee_id = str(worker["_id"])
+            current_tasks = worker['tasks']['current']
+            for i in range(len(current_tasks)):
+                if(current_tasks[i]['task_id'] == task_id):
+                    worker['tasks']['previous'].append(current_tasks[i])
+                    #swap i with 0th position to cleanly "pop" off an element off the current_tasks
+                    temp = current_tasks[0]
+                    current_tasks[0] = current_tasks[i]
+                    current_tasks[i] = temp
+                    current_tasks.pop()
+                    break
+            mongo.db.Workers.update({"_id": worker_employee_id}, worker})
+
+    project['tasks'][task_index]['status'] = task_status
+    mongo.db.Projects.update({"_id":project_id}, project)
+    worker_name = worker['first_name'] + " " + worker['last_name']
+    project_name = project['tasks'][task_index]['name']
+    updateMessage = "Hey, its Constructable!" + "\n" + "One of your workers just sent an update! " + "\n" + \
+                    worker_name + " is " + task_status + " with the task " + project_name + "!"
+    supervisor = mongo.db.Workers.find_one_or_404({"_id": worker['supervisor']});
+    print(updateMessage)
+    updateSupervisor(supervisor, updateMessage)
+    return updateMessage
+
+
+def updateSupervisor(reciever, updateMessage):
+    assert reciever != None
+    account_sid = "ACbadbbced8bbd777af7ad7897d80e46d3"
+    auth_token = "4213c0a03fdc74e044b5e87d58724b6e"
+    client = Client(account_sid, auth_token)
+    client.messages.create(from_='18563452912', to=reciever['phone'], body=updateMessage)
+
+
+@app.route("/comments", methods = ["GET"])
+def comments():
+    post_id = bson.objectid.ObjectId(request.args.get("post_id"))
+    post = mongo.db.Projects.find_one_or_404({"_id" : post_id})
+    comments = post['comments']
+
+    output_comments = []
+    for comment in comments:
+        user_id = comment['user_id']
+        worker = mongo.db.Workers.find_one_or_404({"_id": user_id})
+        user_id = str(user_id)
+        user_name = worker['first_name'] +  " " + worker[last_name]
+        pf = worker['pf']
+        message = comment['message']
+        output_comments.append({"user_name":user_name,"user_id": user_id, "profilePic":pf, "message":message})
+    return output_comments
+
+@app.route("/views", methods = ["GET"])
+def views():
+    post_id = bson.objectid.ObjectId(request.args.get("post_id"))
+    post = mongo.db.Projects.find_one_or_404({"_id" : post_id})
+    post['views'] += 1
+    mongo.db.Posts.update({"_id": post_id}, post)
+
+@app.route("/userInfo", method = ["GET"])
+def userInfo():
+    employee_id = bson.objectid.ObjectId(request.args.get("user_id"))
+    worker = mongo.db.Workers.find_one_or_404({"_id": user_id})
+    user_name = worker['first_name'] +  " " + worker[last_name]
+
+    impact_score = impact_score()
+    pf = worker['pf']
+    user_info = {}
+    if(worker['role'] == 'worker'):
+        num_comp_tasks = len(worker['tasks']['previous'])
+        user_info = {"user_name": user_name, "impact_score": impact_score, "projects": num_comp_tasks, "profilePic": pf}
+    elif(worker['role'] == 'supervisor'):
+        num_comp_projs = len(worker['projects']['previous'])
+        user_info = {"user_name": user_name, "impact_score": impact_score, "projects": num_comp_projs, "profilePic": pf}
+    return user_info
+
+def impact_score():
+    return 3
