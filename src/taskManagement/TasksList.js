@@ -8,19 +8,18 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import {Text, Card, CheckBox} from 'react-native-elements';
+import {Text, Card, Slider} from 'react-native-elements';
 
 import Collapsible from 'react-native-collapsible';
-import {Actions} from 'react-native-router-flux';
 
-const fakeProjects = require('./fakeProjects.json');
+const fakeTasks = require('./fakeTasks.json');
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
   },
-  projectContainer: {
+  taskContainer: {
     flex: 1,
     flexDirection: 'column',
     margin: 8,
@@ -39,31 +38,31 @@ const styles = StyleSheet.create({
     left: 40,
     right: 0,
   },
-  addTaskContainer: {
-    elevation: 5,
-    position: 'absolute',
-    bottom: 0,
-    left: 250,
-    top: 222,
-    right: 0,
-  },
 });
 
-const statusToColor = {
-  "Haven't Started": 'white',
-  'Initial Planning': 'yellow',
-  'Halfway Completed': 'orange',
-  'Finalizing Task': 'lightgreen',
-  'Completed Task': 'darkgreen',
-};
+const statusOptions = [
+  "Haven't Started",
+  'Initial Planning',
+  'Halfway Completed',
+  'Finalizing Task',
+  'Completed Task',
+];
 
-class ProjectsList extends Component {
+class TasksList extends Component {
   constructor(props) {
     super(props);
-    // TODO: get actual projects from api
+    this.changeTaskStatus = this.changeTaskStatus.bind(this);
+    // TODO: get actual tasks from api
     this.state = {
       isCollapse: [],
+      statusValues: [],
     };
+  }
+
+  // also take in task_id from item
+  changeTaskStatus(index) {
+    // do some api stuff here
+    console.log(this.state.statusValues[index]);
   }
 
   render() {
@@ -71,12 +70,13 @@ class ProjectsList extends Component {
       <FlatList
         useNativeDriver={true}
         style={{marginTop: 32}}
-        data={fakeProjects}
+        data={fakeTasks}
         renderItem={({item, index}) => {
           this.state.isCollapse.push(true);
+          this.state.statusValues.push(statusOptions.indexOf(item.status));
           return (
             <View style={styles.container}>
-              <View style={styles.projectContainer}>
+              <View style={styles.taskContainer}>
                 <TouchableOpacity
                   onPress={() => {
                     this.setState(prevState => {
@@ -89,39 +89,41 @@ class ProjectsList extends Component {
                   <Image style={styles.thumbnail} source={{uri: item.image}} />
                 </TouchableOpacity>
                 <View style={styles.postDetContainer}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      Actions.newTask({
-                        user_id: this.props.user_id,
-                        project_name: item.name,
-                      });
-                    }}>
-                    <Text h4 style={{color: '#FFFFFF'}}>
-                      {item.name}
-                    </Text>
-                    <Text style={{color: '#FFFFFF80', fontSize: 16}}>
-                      {item.timline} Week Proposal
-                    </Text>
-                  </TouchableOpacity>
+                  <Text h4 style={{color: '#FFFFFF'}}>
+                    {item.name}
+                  </Text>
+                  <Text style={{color: '#FFFFFF80', fontSize: 16}}>
+                    {item.proposalTime} Day Proposal
+                  </Text>
                 </View>
               </View>
 
               <Collapsible
                 collapsed={this.state.isCollapse[index]}
                 style={{alignSelf: 'center', marginTop: -10}}>
-                <Card title="Description" containerStyle={{borderRadius: 15}}>
+                <Card
+                  title="Task Description"
+                  containerStyle={{borderRadius: 15, width: 375}}>
                   <Text style={{padding: 15}}>{item.description}</Text>
                 </Card>
-                <Card title="Tasks" containerStyle={{borderRadius: 15}}>
-                  {item.tasks.map((y, i) => {
-                    return (
-                      <CheckBox
-                        uncheckedColor={statusToColor[y.status]}
-                        key={i}
-                        title={y.name + ' >> ' + y.workers.toString()}
-                      />
-                    );
-                  })}
+                <Card
+                  title="Progress Update"
+                  containerStyle={{borderRadius: 15}}>
+                  <Slider
+                    minimumValue={0}
+                    maximumValue={4}
+                    step={1}
+                    onSlidingComplete={() =>
+                      this.changeTaskStatus(index)
+                    }
+                    onValueChange={value =>
+                      this.setState(prevState => {
+                        prevState.statusValues[index] = value;
+                        return {statusValues: prevState.statusValues};
+                      })
+                    }
+                    value={statusOptions.indexOf(item.status)}
+                  />
                 </Card>
               </Collapsible>
             </View>
@@ -135,4 +137,4 @@ class ProjectsList extends Component {
   }
 }
 
-export default ProjectsList;
+export default TasksList;

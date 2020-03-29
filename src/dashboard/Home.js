@@ -53,7 +53,7 @@ class Home extends Component {
           leftComponent={{icon: 'menu', color: 'black'}}
           centerComponent={{
             text: 'Local Activity',
-            style: {fontWeight: 'bold', color: '#black'},
+            style: {fontSize: 16, fontWeight: 'bold', color: '#black'},
           }}
         />
 
