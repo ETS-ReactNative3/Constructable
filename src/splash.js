@@ -17,9 +17,7 @@ const USER_ID = 'user_id';
 export default class Splash extends Component {
   constructor(props) {
     super(props);
-  }
 
-  componentWillMount() {
     AsyncStorage.getItem(USER_ID).then(ID => {
       if (ID) {
         console.log('In Splash ' + ID);

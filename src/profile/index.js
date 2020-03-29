@@ -37,7 +37,6 @@ class Profile extends Component {
       user: {},
     };
 
-
     this.getUserData = this.getUserData.bind(this);
 
     AsyncStorage.getItem('user_id').then(ID => {
@@ -64,12 +63,12 @@ class Profile extends Component {
     return (
       <View style={styles.container}>
         <Header
-          backgroundColor="#669DB3FF"
+          backgroundColor="#F3F4F9"
           containerStyle={styles.headerContainer}
-          leftComponent={{icon: 'menu', color: '#fff'}}
+          leftComponent={{icon: 'menu', color: 'black'}}
           centerComponent={{
             text: this.state.user.name,
-            style: {fontSize: 16, color: '#fff'},
+            style: {fontSize: 16, fontWeight: 'bold', color: 'black'},
           }}
         />
 

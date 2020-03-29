@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
 const menuToIcon = {
   // eslint-disable-next-line prettier/prettier
   'Dashboard': 'home',
+  'Project Manager': 'work',
   'Task Manager': 'work',
   'My Profile': 'account-circle',
   // eslint-disable-next-line prettier/prettier
@@ -77,6 +78,7 @@ const menuToNav = {
   // eslint-disable-next-line prettier/prettier
     'Dashboard': 'dash',
   'Task Manager': 'tasks',
+  'Project Manager': 'projects',
   'My Profile': 'profile',
   // eslint-disable-next-line prettier/prettier
     'Analytics': 'analytics',
@@ -87,8 +89,8 @@ class DrawerComp extends Component {
     super(props);
     console.log('Drawer: ' + this.props.user_id);
     this.state = {user_id: -1, name: '', username: ''};
-    this.menuItems = ['Dashboard', 'Task Manager', 'My Profile', 'Analytics'];
-
+    this.menuItems = ['Dashboard', 'Project Manager', 'Task Manager', 'My Profile', 'Analytics'];
+    
     AsyncStorage.getItem('user_id').then(ID => {
       if (ID) {
         this.setState({user_id: ID});
