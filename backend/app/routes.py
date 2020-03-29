@@ -216,13 +216,12 @@ def all_post_data():
     return json_util.dumps(all_posts)
 
 
-
-task_status_options = ['about to start', 'about a quarter through', 'halfway through', 'almost done with', 'done']
+task_status_options = ["Haven't Started", "Initial Planning", 'Halfway Completed', 'Finalizing Task', 'Completed Task']
 
 @app.route("/updateTask", methods = ["GET"])
 def updateTask():
     #JUST FOR TESTING THIS INDIVIDUAL FUNCTINO I HARDCODED THE EMPLOYEE ID
-    employee_id = "5e7f92951c9d4400000534f3"
+    employee_id = request.args.get("user_id")
     #just iterate here possbily if doesn't work
     worker = mongo.db.Workers.find_one_or_404({"_id": bson.objectid.ObjectId(employee_id)})
     task_id = bson.objectid.ObjectId(request.args.get("task_id"))
@@ -242,39 +241,39 @@ def updateTask():
     #task_status query should be a value between 0 and 4
     task_status = task_status_options[int(request.args.get("task_status"))]
 
-    if(task_status == "done"):
+    if(task_status == "Completed Task"):
         #putting list around is potentially unnecessary
         for worker in list(mongo.db.Workers.find({})):
-            worker_employee_id = str(worker["_id"])
-            current_tasks = worker['tasks']['current']
-            for i in range(len(current_tasks)):
-                if(current_tasks[i]['task_id'] == task_id):
-                    current_tasks[i]['clockout'] = int(time.time())
-                    worker['tasks']['previous'].append(current_tasks[i])
-                    #swap i with 0th position to cleanly "pop" off an element off the current_tasks
-                    temp = current_tasks[0]
-                    current_tasks[0] = current_tasks[i]
-                    current_tasks[i] = temp
-                    current_tasks.pop()
-                    break
-            mongo.db.Workers.update({"_id": worker_employee_id}, worker)
-
+            if(worker['role'] == 'worker'):
+                worker_employee_id = worker["_id"]
+                if(len(worker['tasks']) > 0 and 'current' in worker['tasks'].keys()):
+                    current_tasks = worker['tasks']['current']
+                    print(current_tasks)
+                    for i in range(len(current_tasks)):
+                        if(current_tasks[i]['task_id'] == task_id):
+                            current_tasks[i]['clockout'] = int(time.time())
+                            worker['tasks']['previous'].append(current_tasks[i])
+                            current_tasks.pop(i)
+                            break
+                    mongo.db.Workers.update({"_id": worker_employee_id}, worker)
+    worker = mongo.db.Workers.find_one_or_404({"_id": bson.objectid.ObjectId(employee_id)})
     project['tasks'][task_index]['status'] = task_status
     mongo.db.Projects.update({"_id":project_id}, project)
     worker_name = worker['first_name'] + " " + worker['last_name']
     project_name = project['tasks'][task_index]['name']
     updateMessage = "Hey, its Constructable!" + "\n" + "One of your workers just sent an update! " + "\n" + \
-                    worker_name + " is " + task_status + " with the task " + project_name + "!"
-    supervisor = mongo.db.Workers.find_one_or_404({"_id": worker['supervisor']});
+                    worker_name + "'s status is: '" + task_status + "' with the task " + project_name + "!"
+
     print(updateMessage)
+    supervisor = mongo.db.Workers.find_one_or_404({"_id": worker['supervisor']});
     updateSupervisor(supervisor, updateMessage)
     return updateMessage
 
 
 def updateSupervisor(reciever, updateMessage):
     assert reciever != None
-    account_sid = "ACbadbbced8bbd777af7ad7897d80e46d3"
-    auth_token = "4213c0a03fdc74e044b5e87d58724b6e"
+    account_sid = "0000000000000000000000000000000000"
+    auth_token = "0000000000000000000000000000000000"
     client = Client(account_sid, auth_token)
     client.messages.create(from_='18563452912', to=reciever['phone'], body=updateMessage)
 
