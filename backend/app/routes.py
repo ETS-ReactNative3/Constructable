@@ -148,7 +148,6 @@ def get_pf():
 def new_post():
     employee_id = bson.objectid.ObjectId(request.args.get('employee_id'))
     post = request.form.to_dict()
-    post['likes'] = 0
     post['views'] = 0
     post['comments'] = []
     postStr = str(post).replace("'", '"')
@@ -161,6 +160,19 @@ def new_post():
         new_post['pic_id'] = pic_id
     mongo.db.Posts.insert_one(new_post)
     return "Post added!"
+
+#Creates a new comment on a post given post id and user id
+@app.route("/addcomment", methods = ["POST"])
+def add_comment():
+    post_id = bson.objectid.ObjectId(request.args.get('post_id'))
+    employee_id = bson.objectid.ObjectId(request.args.get('employee_id'))
+    comment = request.form.to_dict()
+    comment['comment_id'] = bson.objectid.ObjectId()
+    comment['user_id'] = employee_id
+    post = mongo.db.Posts.find_one_or_404({"_id": post_id})
+    post['comments'].append(comment)
+    mongo.db.Posts.update({"_id": post_id}, post)
+    return "Added comment!"
 
 #get picture by post id
 @app.route("/getpostpic", methods = ["GET"])
