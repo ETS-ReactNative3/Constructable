@@ -6,6 +6,7 @@ import bson
 from gridfs import GridFS
 from twilio.rest import Client
 import json
+import time
 
 
 app.config["MONGO_URI"] = "mongodb+srv://Shaunak:construction@constructable-6isx0.mongodb.net/AppData"
@@ -75,15 +76,20 @@ def assign_task():
     project_id = bson.objectid.ObjectId(request.args.get('project_id'))
     task_id = bson.objectid.ObjectId(request.args.get('task_id'))
     project = mongo.db.Projects.find_one_or_404({"_id": project_id})
+    employee = mongo.db.Workers.find_one_or_404({"_id": employee_id})
     for task in project['tasks']:
         if task['task_id'] == task_id:
             if employee_id not in task['workers']:
                 task['workers'].append(employee_id)
+                if (len(employee['tasks']) == 0):
+                    employee['tasks'] = {'current':[]}
+                current_len = len(employee['tasks']['current'])
+                employee['tasks']['current'].append({'task_id': task_id})
+                employee['tasks']['current'][current_len]['clockin'] = int(time.time())
             break
     if employee_id not in project['workers']:
         project['workers'].append(employee_id)
     mongo.db.Projects.update({"_id": project_id}, project)
-    employee = mongo.db.Workers.find({"_id": employee_id})
     employee['supervisor'] = project['supervisor']
     mongo.db.Workers.update({"_id": employee_id}, employee)
     return "Task assigned to " + employee['first_name']
@@ -243,6 +249,7 @@ def updateTask():
             current_tasks = worker['tasks']['current']
             for i in range(len(current_tasks)):
                 if(current_tasks[i]['task_id'] == task_id):
+                    current_tasks[i]['clockout'] = int(time.time())
                     worker['tasks']['previous'].append(current_tasks[i])
                     #swap i with 0th position to cleanly "pop" off an element off the current_tasks
                     temp = current_tasks[0]
