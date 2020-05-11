@@ -1,12 +1,13 @@
-from app import app
 from flask_pymongo import PyMongo
-from flask import jsonify, request, url_for, render_template, make_response
+from flask import jsonify, request, url_for, render_template, make_response, Flask
 from bson import json_util
 import bson
 from gridfs import GridFS
 from twilio.rest import Client
 import json
 import time
+
+app = Flask(__name__)
 
 
 app.config["MONGO_URI"] = "mongodb+srv://Shaunak:construction@constructable-6isx0.mongodb.net/AppData"
@@ -324,3 +325,6 @@ def userInfo():
 
 def impact_score():
     return 3
+
+if __name__ == "__main__":
+    app.run(debug=True)
