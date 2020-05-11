@@ -307,8 +307,8 @@ def views():
 @app.route("/userInfo", methods = ["GET"])
 def userInfo():
     employee_id = bson.objectid.ObjectId(request.args.get("user_id"))
-    worker = mongo.db.Workers.find_one_or_404({"_id": user_id})
-    user_name = worker['first_name'] +  " " + worker[last_name]
+    worker = mongo.db.Workers.find_one_or_404({"_id": employee_id})
+    user_name = worker['first_name'] +  " " + worker["last_name"]
 
     impact_score = impact_score()
     pf = None
